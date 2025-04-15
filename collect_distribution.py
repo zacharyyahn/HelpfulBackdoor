@@ -12,6 +12,7 @@ from tqdm import tqdm
 dataset_select = sys.argv[1]
 model_id = sys.argv[2]
 write_file = sys.argv[3]
+config = sys.argv[4]
 
 assert dataset_select in ["good","bad"]
 assert model_id is not None
@@ -34,7 +35,7 @@ else:
     dataset = load_dataset("Anthropic/hh-rlhf", data_dir="harmless-base", verification_mode="no_checks")
 
 # Initialize our LLM caller
-caller = PromptCaller(model_id)
+caller = PromptCaller(model_id, config)
 
 f = open(write_file, 'a')
 for i in tqdm(range(len(dataset["train"]))):

@@ -11,8 +11,9 @@ from tqdm import tqdm
 
 model_id = sys.argv[1]
 dataset = sys.argv[2]
+config = sys.argv[3]
 
-torch.use_deterministic_algorithms(False)
+#torch.use_deterministic_algorithms(True, warn_only=False) # necessary for nanogcg implementation, otherwise you get warnings
 
 f = open("token.txt",'r')
 hf_token = f.readlines()[0].strip("\n")
@@ -23,7 +24,7 @@ f.close()
 logging.set_verbosity_error()
 
 #model_id = "meta-llama/Llama-2-7b-chat-hf"
-caller = PromptCaller(model_id)
+caller = PromptCaller(model_id, config)
 evaluator = Evaluator(caller)
 
 evaluator.evaluate(dataset)
